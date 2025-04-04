@@ -3,6 +3,9 @@
 A robust Node.js/Express server template with authentication, role-based access control, and error handling.
 
 ## Complete Setup Guide
+- - basic setup and folder structure [follow here][https://www.notion.so/Interview-QnA-1b5714dc6fc4807c82e1ca4c160a157e?pvs=4#1cb714dc6fc480069957d850ac4c3ddc]
+- - error handling [open the repo and resolve globalErrorHandler and inside of it][https://github.com/abuabddullah/backend-template-ExTyMong]
+- - route generating
 
 ### Part 1: Basic Setup and Project Structure
 

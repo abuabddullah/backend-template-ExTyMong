@@ -12,7 +12,8 @@ const app: Application = express();
 app.use(express.json({ limit: '50mb' })); //its for the body parser for cloudinary 
 app.use(cookieParser());
 
-app.use(cors({ origin: config.cors_origin, credentials: true }));
+// app.use(cors({ origin: config.cors_origin, credentials: true })); // for production and specific origin
+app.use(cors()); // for local development
 
 // application routes
 app.use('/api/v1', router);
