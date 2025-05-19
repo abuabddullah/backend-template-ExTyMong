@@ -10,6 +10,10 @@ import handleValidationError from '../errors/handleValidationError';
 import handleZodError from '../errors/handleZodError';
 import { TErrorSources } from '../interfaces/error';
 
+/**
+ * Zod validate and cast,  duplicate apperror, in global error handler
+ */
+
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   console.log(err.statusCode);
   //setting default values
