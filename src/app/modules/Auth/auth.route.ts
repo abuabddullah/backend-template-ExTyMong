@@ -47,6 +47,22 @@ router.post(
   AuthControllers.resetPassword,
 );
 
+
+router.post(
+  '/change-status/:id',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  validateRequest(AuthValidation.changeStatusValidationSchema),
+  AuthControllers.changeStatus,
+);
+
+router.post(
+  '/change-role/:id',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  validateRequest(AuthValidation.changeRoleValidationSchema),
+  AuthControllers.changeRole,
+);
+
+
 router.get(
     '/me',
     auth(

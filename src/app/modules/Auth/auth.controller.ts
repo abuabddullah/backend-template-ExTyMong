@@ -4,6 +4,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
 import config from '../../config';
+import { User } from '../User/user.model';
 
 const register = catchAsync(async (req, res) => {
     const { password, ...userData } = req.body;
@@ -100,6 +101,43 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 
+const changeStatus = catchAsync(async (req, res) => {
+    const id = req.params.id;
+  
+    const result = await AuthServices.changeStatus(id, req.body);
+  
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Status is updated succesfully',
+      data: result,
+    });
+  });
+  
+  const changeRole = catchAsync(async (req, res) => {
+    const { role } = req.body;
+    const userId = req.params.id;
+    
+    if (!req.user) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized');
+    }
+  
+    // Get the full user document
+    const currentUser = await User.findById(req.user._id);
+    if (!currentUser) {
+      throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+    }
+  
+    const result = await AuthServices.changeRole(currentUser, userId, role);
+  
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Role changed successfully',
+      data: result,
+    });
+  });
+
 const getMe = catchAsync(async (req, res) => {
     if (!req.user) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized');
@@ -122,5 +160,7 @@ export const AuthControllers = {
     refreshToken,
     forgetPassword,
     resetPassword,
+    changeStatus,
+    changeRole,
     getMe
 };
