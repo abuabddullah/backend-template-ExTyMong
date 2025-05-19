@@ -23,15 +23,12 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     avatar: {
       type: String,
-      required: true,
     },
     phone: {
       type: String,
-      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
