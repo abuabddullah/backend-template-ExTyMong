@@ -4,6 +4,7 @@ import { USER_ROLE, UserStatus } from '../../constants';
 const registerValidationSchema = z.object({
   body: z.object({
     name: z.string({ required_error: 'Name is required' }),
+    username: z.string({ required_error: 'Name is required' }).optional(),
     email: z.string({ required_error: 'Email is required' }),
     password: z.string({ required_error: 'Password is required' }),
   }),
@@ -11,7 +12,8 @@ const registerValidationSchema = z.object({
 
 const loginValidationSchema = z.object({
   body: z.object({
-    id: z.string({ required_error: 'Id is required.' }).optional(),
+    // id: z.string({ required_error: 'Id is required.' }).optional(),
+    username: z.string({ required_error: 'Id is required.' }).optional(),
     email: z.string({ required_error: 'Email is required' }).optional(),
     password: z.string({ required_error: 'Password is required' }),
   }),

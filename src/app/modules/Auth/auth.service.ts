@@ -9,7 +9,7 @@ import { TLoginUser, TJWTPayload } from './auth.interface';
 import { createToken, verifyToken } from './auth.utils';
 import { TUser } from '../User/user.interface';
 import mongoose from 'mongoose';
-import { findUserByIdOrEmail, generateUserId } from '../User/user.utils';
+import { findUserByUserNameOrEmail } from '../User/user.utils';
 
 const createUserIntoDB = async (
     password: string,
@@ -29,8 +29,6 @@ const createUserIntoDB = async (
 
     try {
         session.startTransaction();
-        //set  generated id
-        userData.id = await generateUserId(userData.role);
 
 
         // create a user (transaction-1)
@@ -54,8 +52,7 @@ const createUserIntoDB = async (
 
 const loginUser = async (payload: TLoginUser) => {
     // checking if the user is exist
-
-    const user = await findUserByIdOrEmail(payload);
+    const user = await findUserByUserNameOrEmail(payload);
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -86,7 +83,7 @@ const loginUser = async (payload: TLoginUser) => {
     const jwtPayload = {
         _id: user._id,
         email: user.email,
-        userId: user.id,
+        username: user.username,
         role: user.role,
     };
 
@@ -105,7 +102,6 @@ const loginUser = async (payload: TLoginUser) => {
     return {
         accessToken,
         refreshToken,
-        needsPasswordChange: user?.needsPasswordChange,
     };
 };
 
@@ -114,7 +110,7 @@ const changePassword = async (
     payload: { oldPassword: string; newPassword: string },
 ) => {
     // checking if the user is exist
-    const user = await findUserByIdOrEmail({ email: userData.email });
+    const user = await findUserByUserNameOrEmail({ email: userData.email });
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -153,7 +149,6 @@ const changePassword = async (
         },
         {
             password: newHashedPassword,
-            needsPasswordChange: false,
             passwordChangedAt: new Date(),
         },
     );
@@ -165,10 +160,10 @@ const refreshToken = async (token: string) => {
     // checking if the given token is valid
     const decoded = verifyToken(token, config.jwt_refresh_secret as string);
 
-    const { userId, iat } = decoded;
+    const { username, iat } = decoded;
 
     // checking if the user is exist
-    const user = await User.isUserExistsByCustomId(userId);
+    const user = await User.isUserExistsByUsername(username);
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -195,7 +190,7 @@ const refreshToken = async (token: string) => {
     }
 
     const jwtPayload = {
-        userId: user.id,
+        username: user.username,
         role: user.role,
     };
 
@@ -212,7 +207,7 @@ const refreshToken = async (token: string) => {
 
 const forgetPassword = async (email: string) => {
     // checking if the user is exist
-    const user = await findUserByIdOrEmail({ email: email });
+    const user = await findUserByUserNameOrEmail({ email: email });
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -234,7 +229,7 @@ const forgetPassword = async (email: string) => {
     const jwtPayload = {
         email: user.email,
         role: user.role,
-        userId: user.id,
+        username: user.username,
         _id: user._id,
     };
 
@@ -256,7 +251,7 @@ const resetPassword = async (
     token: string,
 ) => {
     // checking if the user is exist
-    const user = await findUserByIdOrEmail({ email: payload.email });
+    const user = await findUserByUserNameOrEmail({ email: payload.email });
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -300,7 +295,6 @@ const resetPassword = async (
         },
         {
             password: newHashedPassword,
-            needsPasswordChange: false,
             passwordChangedAt: new Date(),
         },
     );
@@ -346,15 +340,11 @@ const changeRole = async (
         }
     }
 
-    // Generate new ID based on new role
-    const newId = await generateUserId(newRole);
-
     // Update user with new role and ID
     const updatedUser = await User.findByIdAndUpdate(
         targetUserId,
         {
             role: newRole,
-            id: newId
         },
         { new: true }
     );

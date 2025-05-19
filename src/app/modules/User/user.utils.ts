@@ -34,11 +34,12 @@ export const generateUserId = async (role: string) => {
   return `${rolePrefix}${paddedId}`;
 };
 
-export const findUserByIdOrEmail = async (payload: { id?: string; email?: string }): Promise<TUser | null> => {
+
+export const findUserByUserNameOrEmail = async (payload: { username?: string; email?: string }): Promise<TUser | null> => {
   let user: TUser | null = null;
   
-  if (payload.id) {
-    user = await User.isUserExistsByCustomId(payload.id);
+  if (payload.username) {
+    user = await User.isUserExistsByUsername(payload.username);
   }
 
   if (!user && payload.email) {

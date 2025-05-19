@@ -6,7 +6,6 @@ const superUser = {
   id: '0001',
   email: 'admin@admin.admin',
   password: "000000",
-  needsPasswordChange: false,
   role: USER_ROLE.superAdmin,
   status: 'in-progress',
   isDeleted: false,

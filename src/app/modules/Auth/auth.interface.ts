@@ -1,8 +1,8 @@
 export type TLoginUser = {
-    id?: string;
+    username?: string;
     email?: string;
     password: string;
   };
   
   
-export type TJWTPayload = { _id: string; email: string; userId: string; role: string }
+export type TJWTPayload = { _id: string; email: string; username: string; role: string }

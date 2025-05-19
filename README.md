@@ -214,10 +214,7 @@ const userSchema = new Schema<IUser, UserModel>({
         enum: ['user', 'admin', 'superAdmin'],
         default: 'user'
     },
-    needsPasswordChange: {
-        type: Boolean,
-        default: false
-    }
+    ....
 }, {
     timestamps: true
 });
@@ -336,8 +333,7 @@ Response:
     "data": {
         "email": "user@example.com",
         "name": "John Doe",
-        "role": "user",
-        "needsPasswordChange": false
+        "role": "user"
     }
 }
 ```
@@ -359,8 +355,7 @@ Response:
     "success": true,
     "message": "User is logged in successfully!",
     "data": {
-        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "needsPasswordChange": false
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     }
 }
 ```
@@ -472,8 +467,7 @@ Response:
     "data": {
         "email": "user@example.com",
         "name": "John Doe",
-        "role": "user",
-        "needsPasswordChange": false
+        "role": "user"
     }
 }
 ```
@@ -500,8 +494,7 @@ Response:
     "data": {
         "email": "user@example.com",
         "name": "John Doe",
-        "role": "admin",
-        "needsPasswordChange": false
+        "role": "admin"
     }
 }
 ```
