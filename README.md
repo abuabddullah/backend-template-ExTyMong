@@ -284,15 +284,24 @@ export default auth;
 5. **Environment Variables**
 Create `.env`:
 ```
-PORT=5000
-DATABASE_URL=mongodb://localhost:27017/your-db
-NODE_ENV=development
-JWT_ACCESS_SECRET=your-access-secret
-JWT_REFRESH_SECRET=your-refresh-secret
-JWT_ACCESS_EXPIRES_IN=1d
-JWT_REFRESH_EXPIRES_IN=365d
-BCRYPT_SALT_ROUNDS=12
-CORS_ORIGIN=http://localhost:3000
+NODE_ENV = development
+PORT = 5000
+DATABASE_URL = mongodb+srv://asifaowadud:sof6vxfRNfUEvdCg@cluster0.gjcwx8p.mongodb.net/server-starter-template?retryWrites=true&w=majority&appName=Cluster0
+CORS_ORIGIN = ["http://localhost:5173"]
+SENDER_EMAIL = asifaowadud@gmail.com
+SENDER_PASSWORD = xfqj dshz wdui ymtb
+BCRYPT_SALT_ROUNDS =12
+DEFAULT_PASS =000000
+JWT_ACCESS_SECRET =3a7b5c9d2e1f8a6b4c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9
+JWT_REFRESH_SECRET =8f7e6d5c4b3a2918273645546372819a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f
+JWT_ACCESS_EXPIRES_IN =15m
+JWT_REFRESH_EXPIRES_IN =7d
+RESET_PASS_UI_LINK =http://localhost:3000
+CLOUDINARY_CLOUD_NAME = dglsw3gml
+CLOUDINARY_API_KEY = 393288281474652
+CLOUDINARY_API_SECRET = PYDhbIQtyacVMPMkSLhFF8kVY7s
+SUPER_ADMIN_PASSWORD =000000
+
 ```
 
 6. **Package Scripts**

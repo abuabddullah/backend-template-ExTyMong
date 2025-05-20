@@ -16,7 +16,7 @@ const createUserIntoDB = async (
     payload: Partial<TUser>,
 ) => {
     // create a user object
-    const userData: Partial<TUser> = {};
+    const userData: Partial<TUser> = { ...payload };
 
     //if password is not given , use default password
     userData.password = password || (config.default_password as string);
@@ -24,7 +24,6 @@ const createUserIntoDB = async (
     //set student role
     userData.role = 'user';
     // set student email
-    userData.email = payload.email;
     const session = await mongoose.startSession();
 
     try {
@@ -75,8 +74,9 @@ const loginUser = async (payload: TLoginUser) => {
 
     //checking if the password is correct
 
-    if (!(await User.isPasswordMatched(payload?.password, user?.password)))
+    if (!(await User.isPasswordMatched(payload?.password, user?.password))) {
         throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
+    }
 
     //create token and sent to the  client
 

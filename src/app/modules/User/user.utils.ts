@@ -43,7 +43,7 @@ export const findUserByUserNameOrEmail = async (payload: { username?: string; em
   }
 
   if (!user && payload.email) {
-    user = await User.findOne({ email: payload.email });
+    user = await User.findOne({ email: payload.email }).select('+password');
   }
 
   return user;

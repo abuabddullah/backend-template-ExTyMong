@@ -3,7 +3,8 @@ import { USER_ROLE } from '../constants';
 import { User } from '../modules/User/user.model';
 
 const superUser = {
-  id: '0001',
+  username: 'admin',
+  name: 'admin',
   email: 'admin@admin.admin',
   password: "000000",
   role: USER_ROLE.superAdmin,
@@ -17,6 +18,7 @@ const seedSuperAdmin = async () => {
 
   if (!isSuperAdminExits) {
     await User.create(superUser);
+    console.info("super admin created")
   }
 };
 
